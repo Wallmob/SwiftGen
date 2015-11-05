@@ -40,6 +40,9 @@ public final class SwiftGenAssetsEnumBuilder {
             return text + "// No image found\n"
         }
         
+        text += "private class \(enumName)Dummy {}"
+        text += "\n"
+        
         text += "extension UIImage {\n"
 
         text += "\(t)enum \(enumName) : String {\n"
@@ -53,11 +56,15 @@ public final class SwiftGenAssetsEnumBuilder {
         text += "\(t)\(t)var image: UIImage {\n"
         text += "\(t)\(t)\(t)return UIImage(asset: self)\n"
         text += "\(t)\(t)}\n"
-        
+        text += "\n"
+        text += "\(t)\(t)var bundle: NSBundle {\n"
+        text += "\(t)\(t)\(t)return NSBundle(forClass: \(enumName)Dummy.self)\n"
+        text += "\(t)\(t)}\n"
+
         text += "\(t)}\n\n"
         
         text += "\(t)convenience init(asset: \(enumName)) {\n"
-        text += "\(t)\(t)self.init(named: asset.rawValue)!\n"
+        text += "\(t)\(t)self.init(named: asset.rawValue, inBundle: asset.bundle, compatibleWithTraitCollection: nil)!\n"
         text += "\(t)}\n"
         text += "}\n"
         

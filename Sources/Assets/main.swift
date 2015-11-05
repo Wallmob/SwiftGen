@@ -14,9 +14,15 @@ if ["-v","--version"].contains(Process.arguments[1]) {
 // MARK: Main Entry Point
 
 let scanDir = Process.arguments[1]
+let enumName: String
+if Process.argc > 2 {
+    enumName = Process.arguments[2]
+} else {
+    enumName = "Assets"
+}
 
 let enumBuilder = SwiftGenAssetsEnumBuilder()
 enumBuilder.parseDirectory(scanDir)
-let output = enumBuilder.build()
+let output = enumBuilder.build(enumName: enumName)
 
 print(output)
